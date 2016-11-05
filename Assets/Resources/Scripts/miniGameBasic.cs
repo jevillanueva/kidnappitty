@@ -6,7 +6,7 @@ public class miniGameBasic : MonoBehaviour {
 	public GameObject managerGame;
 	// Use this for initialization
 	void Start () {
-		managerGame = GameObject.Find ("GameManagerController");
+//		managerGame = GameObject.FindGameObjectWithTag ("master");
 		miniGameStatus = true;
 	}
 	
