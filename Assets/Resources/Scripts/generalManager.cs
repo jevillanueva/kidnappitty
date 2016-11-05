@@ -5,6 +5,11 @@ public class generalManager : MonoBehaviour {
 	public int score;
 	public int highScore;
 	public GameObject[] miniGameFactory;
+	public float[] timersMiniGame;
+	public GameObject transitionStartGame;
+	public GameObject transitionGameOver;
+	public GameObject transitionWinGame;
+	public GameObject transitionLoseGame;
 	public int lives = 4;
 	public bool miniGameStatus;
 	public fase[] fases;
@@ -14,6 +19,7 @@ public class generalManager : MonoBehaviour {
 	public currentStatus actualCurrentStatus = currentStatus.inStartGame;
 	public bool endMiniGame;
 	public bool swControl;
+	public bool swIntTransition;
 	// Use this for initialization
 	void Awake(){
 		initGame ();
@@ -63,11 +69,13 @@ public class generalManager : MonoBehaviour {
 		}
 	}
 	public void initGame(){
+//		Destroy(GameObject.FindGameObjectWithTag("game"));
+		Destroy(GameObject.FindGameObjectWithTag("transition"));
 		swControl = true;
 		score = 0;
 		highScore = PlayerPrefs.GetInt ("HighScore");
 		lives = 4;
-		miniGameStatus = false;
+		miniGameStatus = true;
 		subfase = 0;
 		faseActual = 0;
 		fases = new fase[4];
@@ -76,25 +84,43 @@ public class generalManager : MonoBehaviour {
 		fases [2] = new fase (1, 1, 1);
 		fases [3] = new fase (1, 1, 1);
 		actualCurrentStatus = currentStatus.inStartGame;
+
 		Debug.Log ("estart");
+		swIntTransition = true;
+		Instantiate (transitionStartGame);
 	}
 	void startGameTransition(){
 		//generar prefab animation start generar piso personas y inicia correr
-		Debug.Log ("start to in jub");
-		actualCurrentStatus = currentStatus.inHub;
+		if (!swIntTransition) {
+			
+			actualCurrentStatus = currentStatus.inHub;
+		} else {
+			Debug.Log ("En Animacion");
+		}
+
+
 //		yield return new WaitForSeconds (1);
 	}
 	void inhubcorrutine(){
 		if (lives == 0) {
 			/// elimina escenario actual
-			/// genera el lose 
+			/// genera el lose
+			Destroy(GameObject.FindGameObjectWithTag("game"));
+			swIntTransition = true;
+			Instantiate (transitionGameOver);
 			actualCurrentStatus = currentStatus.inGameOver;
 //			yield return new WaitForSeconds (1);
 		} else {
 			// generar el minijuego y elimina transicion actual
 
 			verifyFase();
-			Instantiate(miniGameFactory[Random.Range(0,miniGameFactory.Length)]);
+			miniGameStatus = true;
+			Destroy(GameObject.FindGameObjectWithTag("transition"));
+			int randomID = Random.Range (0, miniGameFactory.Length);
+			GameObject timer = GameObject.FindGameObjectWithTag ("timer");
+			timer.GetComponent<timeController> ().setMaxValue (timersMiniGame[randomID]);
+			timer.GetComponent<timeController> ().clearTimer ();
+			Instantiate(miniGameFactory[randomID]);
 			actualCurrentStatus = currentStatus.inMiniGame;
 
 			endMiniGame = false;
@@ -130,8 +156,20 @@ public class generalManager : MonoBehaviour {
 		if (endMiniGame) {
 			Destroy (GameObject.FindGameObjectWithTag ("game"));
 			if (miniGameStatus) {
+				swIntTransition = true;
+				score += 1;
+				//Destroy(GameObject.FindGameObjectWithTag("game"));
+				swIntTransition = true;
+				Instantiate (transitionWinGame);
 				actualCurrentStatus = currentStatus.inTransitionWin;
 			} else {
+				swIntTransition = true;
+				if (lives > 0) {
+					lives--;
+				}
+				//Destroy(GameObject.FindGameObjectWithTag("game"));
+				swIntTransition = true;
+				Instantiate (transitionLoseGame);
 				actualCurrentStatus = currentStatus.inTransitionLose;
 			}
 //			yield return new WaitForSeconds (1);
@@ -144,17 +182,25 @@ public class generalManager : MonoBehaviour {
 	}
 
 	void inTransitionWinCorrutine(){
-		score += 1;
+		
 		/// generar animacion win
-		actualCurrentStatus = currentStatus.inHub;
+		if (!swIntTransition) {
+			actualCurrentStatus = currentStatus.inHub;
+		} else {
+			Debug.Log ("No termino la transicion del win");
+		}
+
 //		yield return new WaitForSeconds (1);
 	}
 	void inTransitionLoseCorrutine(){
-		if (lives > 0) {
-			lives--;
+
+		if (!swIntTransition) {
+			actualCurrentStatus = currentStatus.inHub;
+		} else {
+			Debug.Log ("No termino la transicion del lose");
 		}
 		/// generar animacion lose
-		actualCurrentStatus = currentStatus.inHub;
+//		actualCurrentStatus = currentStatus.inHub;
 //		yield return new WaitForSeconds (1);
 	}
 }
