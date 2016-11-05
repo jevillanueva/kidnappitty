@@ -1,9 +1,18 @@
 fileFormatVersion: 2
-guid: 9d8bedbf814c46245bcbe7c0bdd1a169
-timeCreated: 1478312108
+guid: 6e15a6994b047ad4990e1ed3c889721b
+timeCreated: 1478313550
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: CARAMELOS_0
+    21300002: CARAMELOS_1
+    21300004: CARAMELOS_2
+    21300006: CARAMELOS_3
+    21300008: CARAMELOS_4
+    21300010: CARAMELOS_5
+    21300012: CARAMELOS_6
+    21300014: CARAMELOS_7
+    21300016: CARAMELOS_8
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -30,7 +39,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
     wrapMode: 1
   nPOTScale: 0
@@ -38,7 +47,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -51,7 +60,124 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: CARAMELOS_0
+      rect:
+        serializedVersion: 2
+        x: 369
+        y: 673
+        width: 383
+        height: 334
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_1
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 726
+        width: 336
+        height: 279
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_2
+      rect:
+        serializedVersion: 2
+        x: 1192
+        y: 659
+        width: 237
+        height: 352
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_3
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 383
+        width: 363
+        height: 248
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_4
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 361
+        width: 318
+        height: 248
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_5
+      rect:
+        serializedVersion: 2
+        x: 1170
+        y: 327
+        width: 229
+        height: 317
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_6
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 0
+        width: 409
+        height: 275
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_7
+      rect:
+        serializedVersion: 2
+        x: 863
+        y: 0
+        width: 218
+        height: 277
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: CARAMELOS_8
+      rect:
+        serializedVersion: 2
+        x: 1188
+        y: 39
+        width: 254
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
     outline: []
   spritePackingTag: 
   userData: 
