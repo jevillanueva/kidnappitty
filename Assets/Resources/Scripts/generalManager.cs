@@ -13,6 +13,7 @@ public class generalManager : MonoBehaviour {
 	public enum currentStatus {inMiniGame, inTransitionWin, inTransitionLose, inGameOver, inStartGame,inHub}
 	public currentStatus actualCurrentStatus = currentStatus.inStartGame;
 	public bool endMiniGame;
+	public bool swControl;
 	// Use this for initialization
 	void Awake(){
 		initGame ();
@@ -22,30 +23,47 @@ public class generalManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		switch (actualCurrentStatus){
-		case currentStatus.inStartGame: 
-			StartCoroutine (startGameTransition ());
-			break;
-		case currentStatus.inHub: 
-			StartCoroutine (inhubcorrutine ());
-			break;
-		case currentStatus.inGameOver: 
-			StartCoroutine (inGameOver ());
-			break;
+	void FixedUpdate () {
+		
+		if (swControl) {
+			swControl = false;
+			switch (actualCurrentStatus) {
+			case currentStatus.inStartGame: 
+//			StartCoroutine (startGameTransition ());
+				startGameTransition ();
+				swControl = true;
+				break;
+			case currentStatus.inHub: 
+//			StartCoroutine (inhubcorrutine ());
+				inhubcorrutine ();
+				swControl = true;
+				break;
+			case currentStatus.inGameOver: 
+//			StartCoroutine (inGameOver ());
+				inGameOver ();
+				swControl = true;
+				break;
 
-		case currentStatus.inMiniGame: 
-			StartCoroutine (inMiniGameCorrutine ());
-			break;
-		case currentStatus.inTransitionWin: 
-			StartCoroutine (inTransitionWinCorrutine ());
-			break;
-		case currentStatus.inTransitionLose: 
-			StartCoroutine (inTransitionLoseCorrutine ());
-			break;
+			case currentStatus.inMiniGame: 
+//			StartCoroutine (inMiniGameCorrutine ());
+				inMiniGameCorrutine ();
+				swControl = true;
+				break;
+			case currentStatus.inTransitionWin: 
+//			StartCoroutine (inTransitionWinCorrutine ());
+				inTransitionWinCorrutine ();
+				swControl = true;
+				break;
+			case currentStatus.inTransitionLose: 
+//			StartCoroutine (inTransitionLoseCorrutine ());
+				inTransitionLoseCorrutine ();
+				swControl = true;
+				break;
+			}
 		}
 	}
 	public void initGame(){
+		swControl = true;
 		score = 0;
 		highScore = PlayerPrefs.GetInt ("HighScore");
 		lives = 4;
@@ -58,26 +76,29 @@ public class generalManager : MonoBehaviour {
 		fases [2] = new fase (1, 1, 1);
 		fases [3] = new fase (1, 1, 1);
 		actualCurrentStatus = currentStatus.inStartGame;
-
+		Debug.Log ("estart");
 	}
-	IEnumerator startGameTransition(){
+	void startGameTransition(){
 		//generar prefab animation start generar piso personas y inicia correr
+		Debug.Log ("start to in jub");
 		actualCurrentStatus = currentStatus.inHub;
-		yield return new WaitForSeconds (1);
+//		yield return new WaitForSeconds (1);
 	}
-	IEnumerator inhubcorrutine(){
+	void inhubcorrutine(){
 		if (lives == 0) {
 			/// elimina escenario actual
 			/// genera el lose 
 			actualCurrentStatus = currentStatus.inGameOver;
-			yield return new WaitForSeconds (1);
+//			yield return new WaitForSeconds (1);
 		} else {
 			// generar el minijuego y elimina transicion actual
-			verifyFase();
 
+			verifyFase();
 			Instantiate(miniGameFactory[Random.Range(0,miniGameFactory.Length)]);
 			actualCurrentStatus = currentStatus.inMiniGame;
-			yield return new WaitForSeconds (1);
+
+			endMiniGame = false;
+//			yield return new WaitForSeconds (1);
 		}
 
 	}
@@ -91,7 +112,7 @@ public class generalManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator inGameOver(){
+	void inGameOver(){
 		/// cambiar la musica
 		/// eliminar actual
 //		generar la animacion de lose 
@@ -100,38 +121,40 @@ public class generalManager : MonoBehaviour {
 			PlayerPrefs.SetInt ("HighScore", score);
 			// nuevo high score sound and text
 		}
-		yield return new WaitForSeconds (1);
+//		yield return new WaitForSeconds (1);
 	}
 
-	IEnumerator inMiniGameCorrutine(){
+	void inMiniGameCorrutine(){
+		Debug.Log ("sGG");
 	//// hasta que responda el managaer basic
-		if (!endMiniGame) {
+		if (endMiniGame) {
+			Destroy (GameObject.FindGameObjectWithTag ("game"));
 			if (miniGameStatus) {
 				actualCurrentStatus = currentStatus.inTransitionWin;
 			} else {
 				actualCurrentStatus = currentStatus.inTransitionLose;
 			}
-			yield return new WaitForSeconds (1);
+//			yield return new WaitForSeconds (1);
 
 		} else {
 			Debug.Log ("No termino el minijuego");
-			yield return new WaitForSeconds (1);
+//			yield return new WaitForSeconds (1);
 		}
 
 	}
 
-	IEnumerator inTransitionWinCorrutine(){
+	void inTransitionWinCorrutine(){
 		score += 1;
 		/// generar animacion win
 		actualCurrentStatus = currentStatus.inHub;
-		yield return new WaitForSeconds (1);
+//		yield return new WaitForSeconds (1);
 	}
-	IEnumerator inTransitionLoseCorrutine(){
+	void inTransitionLoseCorrutine(){
 		if (lives > 0) {
 			lives--;
 		}
 		/// generar animacion lose
 		actualCurrentStatus = currentStatus.inHub;
-		yield return new WaitForSeconds (1);
+//		yield return new WaitForSeconds (1);
 	}
 }
