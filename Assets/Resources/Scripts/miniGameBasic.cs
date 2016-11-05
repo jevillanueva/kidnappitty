@@ -22,4 +22,8 @@ public class miniGameBasic : MonoBehaviour {
 
 	}
 
+	public void loseMinigame(){
+		miniGameStatus = false;
+	}
+
 }
