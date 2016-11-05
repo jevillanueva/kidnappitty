@@ -12,4 +12,8 @@ public class movementGlass : MonoBehaviour {
 	void Update () {
 	
 	}
+	public void animarLuz(){
+		GameObject luz = GameObject.Find ("LightZone");
+		luz.GetComponent<Animator> ().SetBool ("swStart", true);
+	}
 }
