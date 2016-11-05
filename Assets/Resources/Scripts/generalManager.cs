@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using FMODUnity;
 public class generalManager : MonoBehaviour {
 	public int score;
 	public int highScore;
@@ -20,12 +20,15 @@ public class generalManager : MonoBehaviour {
 	public bool endMiniGame;
 	public bool swControl;
 	public bool swIntTransition;
+	public GameObject cameractual;
 	// Use this for initialization
 	void Awake(){
+		cameractual = GameObject.FindGameObjectWithTag ("MainCamera");
+//		this.gameObject.GetComponent<StudioParameterTrigger> ().Emitters[] = cameractual.GetComponent<StudioEventEmitter>();
 		initGame ();
 	}
 	void Start () {
-	
+
 	}
 	
 	// Update is called once per frame
@@ -69,7 +72,7 @@ public class generalManager : MonoBehaviour {
 		}
 	}
 	public void initGame(){
-//		Destroy(GameObject.FindGameObjectWithTag("game"));
+		Destroy(GameObject.FindGameObjectWithTag("game"));
 		Destroy(GameObject.FindGameObjectWithTag("transition"));
 		swControl = true;
 		score = 0;

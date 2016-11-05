@@ -74,6 +74,14 @@ namespace FMODUnity
                 HandleGameEvent(EmitterGameEvent.TriggerEnter);
             }
         }
+		// JV
+		void OnTriggerEnter2D(Collider2D other)
+		{
+			if (String.IsNullOrEmpty(CollisionTag) || other.CompareTag(CollisionTag))
+			{
+				HandleGameEvent(EmitterGameEvent.TriggerEnter);
+			}
+		}
 
         void OnTriggerExit(Collider other)
         {

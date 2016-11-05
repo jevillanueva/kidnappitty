@@ -6,6 +6,7 @@ public class glassBehavior : miniGameBasic {
 	public float tiempoFuera = 1;
 	public float tiempo;
 	public bool inGamePlay;
+	public GameObject soundPildora;
 		// Use this for initialization
 	void Start () {
 		managerGame = GameObject.FindGameObjectWithTag ("master");
@@ -21,6 +22,7 @@ public class glassBehavior : miniGameBasic {
 		}
 		if (tiempo > tiempoFuera) {
 			GameObject iniciarTimer = GameObject.FindGameObjectWithTag ("timer");
+			Instantiate (soundPildora);
 			iniciarTimer.GetComponent<timeController> ().limpiarTimer ();
 			miniGameStatus = false;
 			endMiniGame ();
