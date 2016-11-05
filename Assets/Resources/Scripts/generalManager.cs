@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using FMODUnity;
+using UnityEngine.UI;
+
 public class generalManager : MonoBehaviour {
 	public int score;
 	public int highScore;
@@ -10,6 +12,10 @@ public class generalManager : MonoBehaviour {
 	public GameObject transitionGameOver;
 	public GameObject transitionWinGame;
 	public GameObject transitionLoseGame;
+	public GameObject actionText;
+	public GameObject quoteText;
+	private Text quote;
+	private Text action;
 	public int lives = 4;
 	public bool miniGameStatus;
 	public fase[] fases;
@@ -21,11 +27,15 @@ public class generalManager : MonoBehaviour {
 	public bool swControl;
 	public bool swIntTransition;
 	public GameObject cameractual;
+	public int previousMinigame;
+	public int currentMinigame;
+	public databaseFrases lolMySoul;
 	// Use this for initialization
 	void Awake(){
 		cameractual = GameObject.FindGameObjectWithTag ("MainCamera");
 //		this.gameObject.GetComponent<StudioParameterTrigger> ().Emitters[] = cameractual.GetComponent<StudioEventEmitter>();
 		initGame ();
+		lolMySoul = new databaseFrases ();
 	}
 	void Start () {
 
@@ -88,6 +98,11 @@ public class generalManager : MonoBehaviour {
 		fases [3] = new fase (1, 1, 1);
 		actualCurrentStatus = currentStatus.inStartGame;
 
+		// Clean Strings
+		setQuote();
+		previousMinigame = -1;
+		currentMinigame = -1;
+
 		Debug.Log ("estart");
 		swIntTransition = true;
 		Instantiate (transitionStartGame);
@@ -120,6 +135,7 @@ public class generalManager : MonoBehaviour {
 			miniGameStatus = true;
 			Destroy(GameObject.FindGameObjectWithTag("transition"));
 			int randomID = Random.Range (0, miniGameFactory.Length);
+			previousMinigame = randomID;
 			GameObject timer = GameObject.FindGameObjectWithTag ("timer");
 			timer.GetComponent<timeController> ().setMaxValue (timersMiniGame[randomID]);
 			timer.GetComponent<timeController> ().clearTimer ();
@@ -142,6 +158,7 @@ public class generalManager : MonoBehaviour {
 	}
 
 	void inGameOver(){
+		setQuote ();
 		/// cambiar la musica
 		/// eliminar actual
 //		generar la animacion de lose 
@@ -155,6 +172,7 @@ public class generalManager : MonoBehaviour {
 
 	void inMiniGameCorrutine(){
 		Debug.Log ("sGG");
+		setQuote("",lolMySoul.getQuote(previousMinigame));
 	//// hasta que responda el managaer basic
 		if (endMiniGame) {
 			Destroy (GameObject.FindGameObjectWithTag ("game"));
@@ -164,13 +182,16 @@ public class generalManager : MonoBehaviour {
 				//Destroy(GameObject.FindGameObjectWithTag("game"));
 				swIntTransition = true;
 				Instantiate (transitionWinGame);
+				setQuote ();
 				actualCurrentStatus = currentStatus.inTransitionWin;
 			} else {
 				swIntTransition = true;
 				if (lives > 0) {
 					lives--;
 				}
+
 				//Destroy(GameObject.FindGameObjectWithTag("game"));
+				setQuote (lolMySoul.getFrase (previousMinigame));
 				swIntTransition = true;
 				Instantiate (transitionLoseGame);
 				actualCurrentStatus = currentStatus.inTransitionLose;
@@ -205,5 +226,13 @@ public class generalManager : MonoBehaviour {
 		/// generar animacion lose
 //		actualCurrentStatus = currentStatus.inHub;
 //		yield return new WaitForSeconds (1);
+	}
+
+	void setQuote(string a = "", string b = "")
+	{
+		quote = quoteText.GetComponent<Text> ();
+		quote.text = a;
+		action = actionText.GetComponent<Text> ();
+		action.text = b;
 	}
 }
